@@ -13,6 +13,13 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      transitionProperty: {
+        'fontSize': 'font-size',
+      },
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-placeholder': 'cubic-bezier(0.25,0.8,0.25,1)',
+      }
     },
   },
   plugins: [],
