@@ -35,7 +35,7 @@ export default function Home() {
     setSearchInput(evt.target.value);
   };
 
-  const debounce = (func) => {
+  const debounce = (func: Function) => {
     let timer;
     return function (...args) {
       const context = this;
