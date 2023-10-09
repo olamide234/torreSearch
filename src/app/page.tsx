@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import SearchResult from "@/components/SearchResult";
 import SearchInput from "@/components/SearchInput";
@@ -27,9 +27,12 @@ export default function Home() {
   const [onSearchFocus, setOnSearchFocus] = useState(false);
 
   const [searchInput, setSearchInput] = useState("");
-  const [status, setStatus] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!onSearchFocus && result.length > 0) setResult([]);
+    return () => {};
+  }, [onSearchFocus]);
 
   const handleChange = (evt: any) => {
     setSearchInput(evt.target.value);
@@ -38,7 +41,7 @@ export default function Home() {
   const debounce = (func: Function) => {
     let timer: string | number | ReturnType<typeof setTimeout> | null;
     return function () {
-      const context= this;
+      const context = this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
@@ -60,20 +63,20 @@ export default function Home() {
         torreGgId: `${process.env.NEXT_PUBLIC_TORRE_ID}`,
       })
       .then((response) => {
-        const contentType = response.headers['content-type'];
-        if(contentType === 'application/x-ndjson'){
-          const ndjson = response.data.split('\n').filter(Boolean).map(JSON.parse)
-          setResult(ndjson)
+        const contentType = response.headers["content-type"];
+        if (contentType === "application/x-ndjson") {
+          const ndjson = response.data
+            .split("\n")
+            .filter(Boolean)
+            .map(JSON.parse);
+          setResult(ndjson);
+        } else {
+          setResult(response.data);
         }
-        else{
-          setResult(response.data)
-        }
-        setStatus(true);
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
-        setError(true);
       });
   };
 
@@ -99,7 +102,8 @@ export default function Home() {
           {loading ? (
             <div className="text-white">Loading</div>
           ) : (
-            result?.length > 0 && <SearchResult searchData={result} />
+            result?.length > 0 &&
+            onSearchFocus && <SearchResult searchData={result} />
           )}
         </div>
       </div>
