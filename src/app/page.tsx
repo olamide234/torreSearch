@@ -47,7 +47,7 @@ export default function Home() {
         limit: 10,
         meta: false,
         query: searchInput,
-        torreGgId: "1572816",
+        torreGgId: `${process.env.NEXT_PUBLIC_TORRE_ID}`,
       })
       .then((response) => { //Promise<IData>
         result.push(response.data);
