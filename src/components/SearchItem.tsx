@@ -1,21 +1,21 @@
 import React from "react";
 
 export interface ISearchData {
-    ardaId: number;
-    ggId: string;
-    name: string;
-    comparableName: string;
-    username: string;
-    professionalHeadline: string;
-    imageUrl: string;
-    verified: boolean;
-    organizationId: string | null;
-    organizationNumericId: string | null;
-    publicId: string | null;
-    contact: boolean;
+  ardaId: number;
+  ggId: string;
+  name: string;
+  comparableName: string;
+  username: string;
+  professionalHeadline: string;
+  imageUrl: string;
+  verified: boolean;
+  organizationId: string | null;
+  organizationNumericId: string | null;
+  publicId: string | null;
+  contact: boolean;
 }
 
-export default function SearchItem({data}:{data:ISearchData}) {
+export default function SearchItem({ data }: { data: ISearchData }) {
   return (
     <div className="py-4 px-[2%] md:px-6 w-[45rem] max-w-full md:max-w-full flex items-center gap-3">
       <div className="w-10 h-10 border-2 border-[#7a838f] rounded-[50%]">

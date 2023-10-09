@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 import SearchResult from "@/components/SearchResult";
 import SearchInput from "@/components/SearchInput";
-import {ISearchData} from "@/components/SearchItem"
+import { ISearchData } from "@/components/SearchItem";
 
 interface IResult extends ISearchData {
   completion: number;
@@ -18,11 +18,11 @@ interface IResult extends ISearchData {
 }
 
 type IData = {
-  data: IResult
-}
+  data: IResult;
+};
 
 export default function Home() {
-  let result : IResult[] = [];
+  let result: IResult[] = [];
   const [onSearchHover, setOnSearchHover] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
 
@@ -31,10 +31,20 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  console.log(searchInput, "gh");
-
   const handleChange = (evt: any) => {
     setSearchInput(evt.target.value);
+  };
+
+  const debounce = (func) => {
+    let timer;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 100);
+    };
   };
 
   const onSearch = async () => {
@@ -49,7 +59,8 @@ export default function Home() {
         query: searchInput,
         torreGgId: `${process.env.NEXT_PUBLIC_TORRE_ID}`,
       })
-      .then((response) => { //Promise<IData>
+      .then((response) => {
+        //Promise<IData>
         result.push(response.data);
         console.log(response.data);
         setStatus(true);
@@ -60,6 +71,8 @@ export default function Home() {
         setError(true);
       });
   };
+
+  const optimizedFn = useCallback(debounce(onSearch), []);
 
   return (
     <main className="bg-[#010101] min-h-screen text-sm tracking-[0.01em]">
@@ -76,12 +89,12 @@ export default function Home() {
             onSearchFocus={onSearchFocus}
             setOnSearchFocus={setOnSearchFocus}
             handleChange={(e) => handleChange(e)}
-            onSearch={onSearch}
+            onSearch={optimizedFn}
           />
           {loading ? (
             <div className="text-white">Fiv</div>
-          ) : result?.length > 0 && (
-            <SearchResult searchData={result} />
+          ) : (
+            result?.length > 0 && <SearchResult searchData={result} />
           )}
         </div>
       </div>
