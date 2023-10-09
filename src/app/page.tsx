@@ -3,8 +3,26 @@ import { useState } from "react";
 import axios from "axios";
 import SearchResult from "@/components/SearchResult";
 import SearchInput from "@/components/SearchInput";
+import {ISearchData} from "@/components/SearchItem"
+
+interface IResult extends ISearchData {
+  completion: number;
+  grammar: number;
+  weight: number;
+  connections: any[];
+  totalStrength: number;
+  pageRank: number;
+  status: string | null;
+  creators: any[];
+  relationDegree: number;
+}
+
+type IData = {
+  data: IResult
+}
 
 export default function Home() {
+  let result : IResult[] = [];
   const [onSearchHover, setOnSearchHover] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
 
@@ -13,11 +31,34 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  console.log(searchInput, "gh")
+  console.log(searchInput, "gh");
 
   const handleChange = (evt: any) => {
-    // const value = evt.target.value;
     setSearchInput(evt.target.value);
+  };
+
+  const onSearch = async () => {
+    setLoading(true);
+    const response = await axios
+      .post(`${process.env.NEXT_PUBLIC_SEARCH_API}/entities/_searchStream`, {
+        excludeContacts: true,
+        excludedPeople: [],
+        identityType: "person",
+        limit: 10,
+        meta: false,
+        query: searchInput,
+        torreGgId: "1572816",
+      })
+      .then((response) => { //Promise<IData>
+        result.push(response.data);
+        console.log(response.data);
+        setStatus(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
   };
 
   return (
@@ -34,52 +75,57 @@ export default function Home() {
             setOnSearchHover={setOnSearchHover}
             onSearchFocus={onSearchFocus}
             setOnSearchFocus={setOnSearchFocus}
-            handleChange={(e)=>handleChange(e)}
+            handleChange={(e) => handleChange(e)}
+            onSearch={onSearch}
           />
-          <SearchResult searchData={dummyData} />
+          {loading ? (
+            <div className="text-white">Fiv</div>
+          ) : result?.length > 0 && (
+            <SearchResult searchData={result} />
+          )}
         </div>
       </div>
     </main>
   );
 }
 
-const dummyData = [
-  {
-    ardaId: 39931709,
-    ggId: "1572816",
-    name: "Olamide Tofade",
-    comparableName: "olamide tofade",
-    username: "olamidetofade",
-    professionalHeadline: "Software engineer",
-    imageUrl:
-      "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v1693540962/origin/starrgate/users/profile_20bf19463fcc889b6a84e2857c61ffb48d01332e.jpg",
+// const dummyData = [
+//   {
+//     ardaId: 39931709,
+//     ggId: "1572816",
+//     name: "Olamide Tofade",
+//     comparableName: "olamide tofade",
+//     username: "olamidetofade",
+//     professionalHeadline: "Software engineer",
+//     imageUrl:
+//       "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v1693540962/origin/starrgate/users/profile_20bf19463fcc889b6a84e2857c61ffb48d01332e.jpg",
 
-    verified: false,
-    connections: [],
-    totalStrength: 0.0,
-    pageRank: 0.15479494166055355,
-    organizationId: null,
-    organizationNumericId: null,
-    publicId: null,
-    contact: false,
-  },
-  {
-    ardaId: 8007636,
-    ggId: "13",
-    name: "Alexander Torrenegra",
-    comparableName: "alexander torrenegra",
-    username: "torrenegra",
-    professionalHeadline:
-      "Head of Torre. Shark at Shark Tank in LatAm.Co-founder of Tribe, Bunny Studio, and Voice123.",
-    imageUrl:
-      "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v0/origin/starrgate/users/profile_bd307a3ec329e10a2cff8fb87480823da114f8f4.jpg",
-    verified: true,
-    connections: [],
-    totalStrength: 0.15479494166055355,
-    pageRank: 7520.090203997622,
-    organizationId: null,
-    organizationNumericId: null,
-    publicId: null,
-    contact: false,
-  },
-];
+//     verified: false,
+//     connections: [],
+//     totalStrength: 0.0,
+//     pageRank: 0.15479494166055355,
+//     organizationId: null,
+//     organizationNumericId: null,
+//     publicId: null,
+//     contact: false,
+//   },
+//   {
+//     ardaId: 8007636,
+//     ggId: "13",
+//     name: "Alexander Torrenegra",
+//     comparableName: "alexander torrenegra",
+//     username: "torrenegra",
+//     professionalHeadline:
+//       "Head of Torre. Shark at Shark Tank in LatAm.Co-founder of Tribe, Bunny Studio, and Voice123.",
+//     imageUrl:
+//       "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v0/origin/starrgate/users/profile_bd307a3ec329e10a2cff8fb87480823da114f8f4.jpg",
+//     verified: true,
+//     connections: [],
+//     totalStrength: 0.15479494166055355,
+//     pageRank: 7520.090203997622,
+//     organizationId: null,
+//     organizationNumericId: null,
+//     publicId: null,
+//     contact: false,
+//   },
+// ];
