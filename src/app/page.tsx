@@ -36,13 +36,13 @@ export default function Home() {
   };
 
   const debounce = (func: Function) => {
-    let timer;
-    return function (...args) {
-      const context = this;
+    let timer: string | number | ReturnType<typeof setTimeout> | null;
+    return function () {
+      const context= this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
-        func.apply(context, args);
+        func.apply(context);
       }, 100);
     };
   };
