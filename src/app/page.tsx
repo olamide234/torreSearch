@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import SearchIcon from "@/assets/svg/SearchIcon";
 import SearchResult from "@/components/SearchResult";
+import SearchInput from "@/components/SearchInput";
 
 export default function Home() {
   const [onSearchHover, setOnSearchHover] = useState(false);
@@ -15,56 +15,12 @@ export default function Home() {
       </div>
       <div className="w-full relative flex flex-col justify-center items-center overflowY-auto py-6 px-4 min-h-[92vh]">
         <div className="flex flex-col justify-start items-center min-h-[20.313rem] w-[45rem] max-w-full">
-          <div className="w-full">
-            {/* <div> */}
-            <fieldset
-              onMouseEnter={() => setOnSearchHover(true)}
-              onMouseLeave={() => setOnSearchHover(false)}
-              onFocus={() => {
-                setOnSearchHover(false);
-                setOnSearchFocus(true);
-              }}
-              onBlur={() => setOnSearchFocus(false)}
-              className={`${
-                onSearchHover ? "border-[#ffffffe6]" : "border-[#ffffffa6]"
-              } ${
-                onSearchFocus ? "!border-[#cddc39]" : "mt-2"
-              } border rounded-[100px] w-full min-h-[2.875rem] flex relative`}
-            >
-              {onSearchFocus && (
-                <legend className="text-[#cddc39] text-xs ml-[6%] sm:ml-[5%]">
-                  Search people by name
-                </legend>
-              )}
-              <span className={`${onSearchFocus ? "mt-2 mb-4" : "my-4"} ml-6`}>
-                {onSearchHover ? (
-                  <SearchIcon color="#ffffffe6" />
-                ) : onSearchFocus ? (
-                  <SearchIcon color="#cddc39" />
-                ) : (
-                  <SearchIcon />
-                )}
-              </span>
-              <div
-                className={`${
-                  onSearchFocus ? "pb-2" : "py-2"
-                } w-full px-3 flex items-center flex-wrap`}
-              >
-                <div className="flex grow">
-                  <input
-                    placeholder="Search people by name"
-                    autoComplete="off"
-                    className={`${
-                      onSearchHover
-                        ? "placeholder:text-[#ffffffe6]"
-                        : "placeholder:text-[#ffffffa6]"
-                    }  text-[#ffffffe6]  flex z-10 overflow-hidden whitespace-nowrap text-ellipsis outline-none w-full text-base bg-transparent !border-none`}
-                  />
-                </div>
-              </div>
-            </fieldset>
-            {/* </div> */}
-          </div>
+          <SearchInput
+            onSearchHover={onSearchHover}
+            setOnSearchHover={setOnSearchHover}
+            onSearchFocus={onSearchFocus}
+            setOnSearchFocus={setOnSearchFocus}
+          />
           <SearchResult searchData={dummyData} />
         </div>
       </div>
