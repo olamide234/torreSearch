@@ -38,7 +38,7 @@ export default function Home() {
   const debounce = (func: Function) => {
     let timer: string | number | ReturnType<typeof setTimeout> | null;
     return function () {
-      const context: unknown= this;
+      const context= this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
