@@ -1,11 +1,25 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
 import SearchResult from "@/components/SearchResult";
 import SearchInput from "@/components/SearchInput";
 
 export default function Home() {
   const [onSearchHover, setOnSearchHover] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
+
+  const [searchInput, setSearchInput] = useState("");
+  const [status, setStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  console.log(searchInput, "gh")
+
+  const handleChange = (evt: any) => {
+    // const value = evt.target.value;
+    setSearchInput(evt.target.value);
+  };
+
   return (
     <main className="bg-[#010101] min-h-screen text-sm tracking-[0.01em]">
       <div className="flex items-center flex h-14 w-full bg-[#27292d] pr-2">
@@ -20,6 +34,7 @@ export default function Home() {
             setOnSearchHover={setOnSearchHover}
             onSearchFocus={onSearchFocus}
             setOnSearchFocus={setOnSearchFocus}
+            handleChange={(e)=>handleChange(e)}
           />
           <SearchResult searchData={dummyData} />
         </div>

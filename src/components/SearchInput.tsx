@@ -6,11 +6,13 @@ export default function SearchInput({
   onSearchFocus,
   setOnSearchHover,
   setOnSearchFocus,
+  handleChange,
 }: {
   onSearchHover: boolean;
   onSearchFocus: boolean;
   setOnSearchHover: (val: boolean) => void;
   setOnSearchFocus: (val: boolean) => void;
+  handleChange:(val: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>)=>void;
 }) {
   return (
     <div className="w-full">
@@ -49,6 +51,7 @@ export default function SearchInput({
         >
           <div className="flex grow">
             <input
+                onChange={(e)=>handleChange(e)}
               placeholder="Search people by name"
               autoComplete="off"
               className={`${
