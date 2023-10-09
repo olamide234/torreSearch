@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export interface ISearchData {
   ardaId: number;
@@ -16,8 +17,12 @@ export interface ISearchData {
 }
 
 export default function SearchItem({ data }: { data: ISearchData }) {
+  const router = useRouter();
   return (
-    <div className="py-4 px-[2%] md:px-6 w-[45rem] max-w-full md:max-w-full flex items-center gap-3">
+    <div
+      onClick={() => router.push(`https://torre.ai/${data?.username}`)}
+      className="cursor-pointer hover:bg-[#484c53] py-4 px-[2%] md:px-6 w-[45rem] max-w-full md:max-w-full flex items-center gap-3"
+    >
       <div className="w-10 h-10 border-2 border-[#7a838f] rounded-[50%]">
         <img
           src={data?.imageUrl}
