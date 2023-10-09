@@ -34,7 +34,7 @@ export default function SearchItem({ data }: { data: ISearchData }) {
           }}
         />
       </div>
-      <div className="max-w-[90%]">
+      <div className="max-w-[80%] sm:max-w-[90%]">
         <h5 className="text-[#ffffffe6] text-base tracking-[0.01em]">
           {data?.name}
         </h5>

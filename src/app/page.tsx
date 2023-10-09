@@ -22,7 +22,7 @@ type IData = {
 };
 
 export default function Home() {
-  let result: IResult[] = [];
+  const [result, setResult] = useState([]);
   const [onSearchHover, setOnSearchHover] = useState(false);
   const [onSearchFocus, setOnSearchFocus] = useState(false);
 
@@ -60,9 +60,14 @@ export default function Home() {
         torreGgId: `${process.env.NEXT_PUBLIC_TORRE_ID}`,
       })
       .then((response) => {
-        //Promise<IData>
-        result.push(response.data);
-        console.log(response.data);
+        const contentType = response.headers['content-type'];
+        if(contentType === 'application/x-ndjson'){
+          const ndjson = response.data.split('\n').filter(Boolean).map(JSON.parse)
+          setResult(ndjson)
+        }
+        else{
+          setResult(response.data)
+        }
         setStatus(true);
         setLoading(false);
       })
@@ -81,7 +86,7 @@ export default function Home() {
           Search
         </h1>
       </div>
-      <div className="w-full relative flex flex-col justify-center items-center overflowY-auto py-6 px-4 min-h-[92vh]">
+      <div className="w-full relative flex flex-col justify-center items-center overflow-y-auto py-6 px-4 min-h-[92vh]">
         <div className="flex flex-col justify-start items-center min-h-[20.313rem] w-[45rem] max-w-full">
           <SearchInput
             onSearchHover={onSearchHover}
@@ -92,7 +97,7 @@ export default function Home() {
             onSearch={optimizedFn}
           />
           {loading ? (
-            <div className="text-white">Fiv</div>
+            <div className="text-white">Loading</div>
           ) : (
             result?.length > 0 && <SearchResult searchData={result} />
           )}
