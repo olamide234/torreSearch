@@ -38,8 +38,7 @@ export default function Home() {
   const debounce = (func: Function) => {
     let timer: string | number | ReturnType<typeof setTimeout> | null;
     return function () {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const context= this;
+      const context: unknown= this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
