@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useCallback } from "react";
 import axios from "axios";
@@ -39,7 +38,7 @@ export default function Home() {
   const debounce = (func: Function) => {
     let timer: string | number | ReturnType<typeof setTimeout> | null;
     return function () {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context= this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
