@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchResult from "@/components/SearchResult";
 import SearchInput from "@/components/SearchInput";
@@ -40,12 +40,12 @@ export default function Home() {
 
   const debounce = (func: Function) => {
     let timer: string | number | ReturnType<typeof setTimeout> | null;
-    return function () {
+    return function (...args) {
       const context = this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
-        func.apply(context);
+        func.apply(context, args);
       }, 100);
     };
   };
@@ -80,7 +80,7 @@ export default function Home() {
       });
   };
 
-  const optimizedFn = useCallback(debounce(onSearch), []);
+  const optimizedFn = debounce(onSearch);
 
   return (
     <main className="bg-[#010101] min-h-screen text-sm tracking-[0.01em]">
