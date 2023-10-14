@@ -102,52 +102,10 @@ export default function Home() {
           {loading ? (
             <div className="text-white">Loading</div>
           ) : (
-            result?.length > 0 &&
-            onSearchFocus && <SearchResult searchData={result} />
+            result?.length > 0 && <SearchResult searchData={result} />
           )}
         </div>
       </div>
     </main>
   );
 }
-
-// const dummyData = [
-//   {
-//     ardaId: 39931709,
-//     ggId: "1572816",
-//     name: "Olamide Tofade",
-//     comparableName: "olamide tofade",
-//     username: "olamidetofade",
-//     professionalHeadline: "Software engineer",
-//     imageUrl:
-//       "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v1693540962/origin/starrgate/users/profile_20bf19463fcc889b6a84e2857c61ffb48d01332e.jpg",
-
-//     verified: false,
-//     connections: [],
-//     totalStrength: 0.0,
-//     pageRank: 0.15479494166055355,
-//     organizationId: null,
-//     organizationNumericId: null,
-//     publicId: null,
-//     contact: false,
-//   },
-//   {
-//     ardaId: 8007636,
-//     ggId: "13",
-//     name: "Alexander Torrenegra",
-//     comparableName: "alexander torrenegra",
-//     username: "torrenegra",
-//     professionalHeadline:
-//       "Head of Torre. Shark at Shark Tank in LatAm.Co-founder of Tribe, Bunny Studio, and Voice123.",
-//     imageUrl:
-//       "https://res.cloudinary.com/torre-technologies-co/image/upload/c_fill,h_150,w_150/v0/origin/starrgate/users/profile_bd307a3ec329e10a2cff8fb87480823da114f8f4.jpg",
-//     verified: true,
-//     connections: [],
-//     totalStrength: 0.15479494166055355,
-//     pageRank: 7520.090203997622,
-//     organizationId: null,
-//     organizationNumericId: null,
-//     publicId: null,
-//     contact: false,
-//   },
-// ];
